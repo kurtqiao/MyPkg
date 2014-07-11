@@ -1,0 +1,23 @@
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = AppFrameWorkLib
+  FILE_GUID                      = EA26C283-5FA5-4f98-95E0-AF64B318718C
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = AppFrameWorkLib
+
+[Sources]
+  AppFrameWorkLib.c
+  AppFrameWorkLib.h
+  
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MyPkg/MyPkg.dec
+  
+[LibraryClasses]
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  
+[Protocols]

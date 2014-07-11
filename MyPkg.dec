@@ -1,0 +1,19 @@
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010006
+  PACKAGE_NAME                   = MyPkg
+  PACKAGE_GUID                   = 518D7206-48D3-4884-A821-4277BE766D53
+  PACKAGE_VERSION                = 0.1
+
+[Includes]
+  Include
+
+[LibraryClasses]
+  AppFrameWorkLib|Include/Library/AppFrameWork.h
+  AppCommonLib|Include/Library/AppCommon.h
+
+[Guids]
+
+[Ppis]
+
+[Protocols]

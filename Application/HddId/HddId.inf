@@ -1,0 +1,40 @@
+
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = HddId
+  FILE_GUID                      = 893FE54D-395A-4ff5-AB56-547AC0CC5584
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC
+#
+
+[Sources]
+  HddId.c
+  HddId.h
+  Misc.c
+  Misc.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ShellPkg/ShellPkg.dec
+  MyPkg/MyPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellCEntryLib
+  PciLib
+  AppFrameWorkLib
+  AppCommonLib
+
+[Protocols]
+  gEfiPciRootBridgeIoProtocolGuid 
+  gEfiAtaPassThruProtocolGuid
+  gEfiPciIoProtocolGuid

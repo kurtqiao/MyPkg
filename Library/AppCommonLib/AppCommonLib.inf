@@ -1,0 +1,24 @@
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = AppCommonLib
+  FILE_GUID                      = 95BF7161-F04F-4228-BF53-4D3E483CA473
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = AppCommonLib
+
+[Sources]
+  AppCommonLib.c
+  
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MyPkg/MyPkg.dec
+  
+[LibraryClasses]
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  IoLib
+  PciLib
+  
+[Protocols]
