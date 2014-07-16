@@ -177,8 +177,8 @@ AhciIssueCmd(
         port->is = port->is;
     }
 
-    if (port->tfd & BIT0)
-        return EFI_DEVICE_ERROR;
+    //if (port->tfd & BIT0)
+    //    return EFI_DEVICE_ERROR;
     //issue cmd
     port->ci = cmdslot;
 
