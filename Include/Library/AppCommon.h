@@ -1,5 +1,6 @@
 
 #pragma once
+#include <Library/AppCommonLib/AppCommonLib.h>
 
 #define ATA_PASS_THRU_SECOND_UNIT   (1000 * 1000 * 10) // Timeout for one second.
 #define ATA_PASS_THRU_TIMEOUT       (ATA_PASS_THRU_SECOND_UNIT * 10) // Timeout definition.

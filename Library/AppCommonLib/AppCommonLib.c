@@ -77,7 +77,6 @@ AppProbePCIByClassCode(
                 if (Hdr->ClassCode[0] == *mInterface){
                   mPCI_ADDRESS[Count++] = PCI_LIB_ADDRESS(Bus, Dev, Func, 0);
                   Found = TRUE;
-                  Print(L"found controller!\n");
                 }
               }else{
                   mPCI_ADDRESS[Count++] = PCI_LIB_ADDRESS(Bus, Dev, Func, 0);
