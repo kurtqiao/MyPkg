@@ -1,0 +1,44 @@
+## 
+#  Sample UEFI Application Reference EDKII Module
+#
+#  A sample shell application
+#
+#  Copyright (c) 2012 - 2014, KurtQiao. All rights reserved.<BR>
+#
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = AHCI
+  FILE_GUID                      = 032B3E70-52C0-46e6-86CD-DCC32B906DFF
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC
+#
+
+[Sources]
+  AHCI.c
+  AHCI.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ShellPkg/ShellPkg.dec
+  MyPkg/MyPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellCEntryLib
+  PciLib
+  AppCommonLib
+
+[Protocols]
+  gEfiPciRootBridgeIoProtocolGuid 
+  gEfiPciIoProtocolGuid

@@ -93,6 +93,7 @@
 [Components]
 #### Sample Applications.
   MyPkg/Application/HddId/HddId.inf
+  MyPkg/Application/AHCI/AHCI.inf
 ################################################################
 #
 # See the additional comments below if you plan to run applications under the
