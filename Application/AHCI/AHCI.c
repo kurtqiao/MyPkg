@@ -25,7 +25,7 @@ Revision History
 #include "Library/UefiBootServicesTableLib.h"
 
 HBA_MEM  *abar;
-
+BOOLEAN EjectODD = FALSE;
 /*VOID
 ResetAhciEngine(
     HBA_MEM  *abar
@@ -40,6 +40,14 @@ VOID
 BuildH2DFis(
     FIS_REG_H2D *fish2d, 
     UINT8 cmd
+    );
+
+EFI_STATUS
+ATAPIEjectODD(
+   HBA_MEM  *abar,
+   FIS_REG_H2D *fish2d,
+   HBA_CMD_HEADER *cmdlist,
+   HBA_CMD_TBL *cmdheader
     );
 
 EFI_STATUS
@@ -62,19 +70,19 @@ ShellAppMain (
     HBA_CMD_TBL *cmdheader;
     FIS_REG_H2D *fish2d;
 
-
+    //use AHCI.efi -e to eject ODD
+    if (Argv[1][1] == L'e'){
+        EjectODD = TRUE;
+    }
     ZeroMem(AhciPciAddr, sizeof(UINT64));
     //get AHCI controller
     classinter = 0x01;
     if (!AppProbePCIByClassCode(0x01, 0x06,&classinter, AhciPciAddr))
         return EFI_NOT_FOUND;
-    Print(L"AHCI controller address: %x\n", *AhciPciAddr);
+
     //read AHCI bar
     abar = (HBA_MEM  *)(UINTN)(PciRead32(*AhciPciAddr+0x24));
-    Print(L"AHCI bar: %x\n", abar);
-    Print(L"Host Capabilities: %x ; Global Host Control: %x\n", abar->cap, abar->ghc);
-    Print(L"Port Implemented: %x \n", abar->pi);
-
+    
     //make sure AHCI enable
     if (!(abar->ghc & BIT31))
         abar->ghc |= BIT31;
@@ -93,6 +101,17 @@ ShellAppMain (
     cmdlist = AllocatePages(sizeof(HBA_CMD_HEADER));
     ZeroMem(cmdlist, sizeof(HBA_CMD_HEADER));
 
+    if (EjectODD){
+        Status = ATAPIEjectODD(abar, fish2d, cmdlist, cmdheader);
+        Print(L"SATA AHCI Mode ODD eject!\n");
+        return Status;
+    }
+
+    Print(L"AHCI controller address: %x\n", *AhciPciAddr);
+    Print(L"AHCI bar: %x\n", abar);
+    Print(L"Host Capabilities: %x ; Global Host Control: %x\n", abar->cap, abar->ghc);
+    Print(L"Port Implemented: %x \n", abar->pi);
+    //scan port for ATA/ATAPI device and print identify data
     cmd = ATA_CMD_IDENTIFY;
     //check implemented port
     for (ip = abar->pi, i=0; ip>0;ip>>=1, i++){
@@ -219,4 +238,53 @@ BuildH2DFis(
     fish2d->command = cmd;
     fish2d->featurel = 1;
 
+}
+
+EFI_STATUS
+ATAPIEjectODD(
+   HBA_MEM  *abar,
+   FIS_REG_H2D *fish2d,
+   HBA_CMD_HEADER *cmdlist,
+   HBA_CMD_TBL *cmdheader
+    )
+{
+    EFI_STATUS  Status = EFI_NOT_FOUND;
+    UINT32      ip;   //implemented port
+    UINTN       i, PortAddr;
+    HBA_PORT    *port;
+    DATA_64     Data64;
+
+    //scan implemented port
+    for (ip = abar->pi, i=0; ip>0;ip>>=1, i++){
+        if (ip&1){
+            PortAddr = (UINTN)abar + 0x100 + 0x80*i;
+            port = (HBA_PORT *)(UINTN) PortAddr;
+            //found ODD and issue eject command
+            if (port->sig == ATAPIDRIVE){
+                //setting ATAPI cmd enable FIS
+                BuildH2DFis(fish2d, 0xA0);
+                //setting command header
+                CopyMem(cmdheader->cfis, fish2d, sizeof(FIS_REG_H2D));
+
+                cmdheader->prdt_entry[0].i = 1;
+
+                cmdheader->acmd[0] = 0x1B;  //START STOP UNIT Command
+                cmdheader->acmd[4] = 0x02;  //LOEJ bit
+
+                cmdlist->cfl = 5;
+                cmdlist->prdtl = 1;
+                cmdlist->a = 1; //enable ATAPI cmd
+                cmdlist->ctba = (UINT32)(UINTN) cmdheader;
+
+                Data64.Uint64 = (UINTN)cmdlist;
+                port->clb = Data64.Uint32.Lower32;
+                port->clbu = Data64.Uint32.Upper32;
+
+                Status = AhciIssueCmd(port, BIT0);
+                break;
+            }
+        }
+    }
+
+    return Status;
 }
