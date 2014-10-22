@@ -7,11 +7,12 @@
 
 [Includes]
   Include
-
+  ../StdLib/Include
+  ../StdLib/Include/X64
 [LibraryClasses]
   AppFrameWorkLib|Include/Library/AppFrameWork.h
   AppCommonLib|Include/Library/AppCommon.h
-
+  
 [Guids]
 
 [Ppis]

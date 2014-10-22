@@ -50,6 +50,9 @@
   FileHandleLib|ShellPkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
   SortLib|ShellPkg/Library/UefiSortLib/UefiSortLib.inf
 #kurt add+++
+#for stdlib build fail
+  PathLib|ShellPkg/Library/BasePathLib/BasePathLib.inf
+#
 	PciLib|MdePkg/Library/BasePciLibCf8/BasePciLibCf8.inf
 	PciCf8Lib|MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
 #
@@ -94,6 +97,7 @@
 #### Sample Applications.
   MyPkg/Application/HddId/HddId.inf
   MyPkg/Application/AHCI/AHCI.inf
+  MyPkg/Application/ctest/ctest.inf
 ################################################################
 #
 # See the additional comments below if you plan to run applications under the
