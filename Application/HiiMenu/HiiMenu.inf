@@ -1,0 +1,39 @@
+
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = HiiMenu
+  FILE_GUID                      = C5BFE29F-0524-4566-B767-B0C9075A30BE
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC
+#
+
+[Sources]
+  HiiMenu.c
+  HiiMenu.h
+  HiiMenuGUIDs.h
+  HiiMenu.inf
+  HiiForm1Vfr.vfr
+  HiiForm1Strings.uni
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ShellPkg/ShellPkg.dec
+  MyPkg/MyPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellCEntryLib
+  HiiLib
+
+[Protocols]
+  gEfiHiiDatabaseProtocolGuid
+  gEfiFormBrowser2ProtocolGuid

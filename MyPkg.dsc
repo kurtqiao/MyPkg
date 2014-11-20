@@ -98,6 +98,7 @@
   MyPkg/Application/HddId/HddId.inf
   MyPkg/Application/AHCI/AHCI.inf
   MyPkg/Application/ctest/ctest.inf
+  MyPkg/Application/HiiMenu/HiiMenu.inf
 ################################################################
 #
 # See the additional comments below if you plan to run applications under the

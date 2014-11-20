@@ -1,0 +1,40 @@
+
+
+#include "HiiMenuGUIDs.h"
+
+formset
+  guid     = HII_MENU_FORM1_GUID,
+  title    = STRING_TOKEN(STR_HIIMENU_TITLE),
+  help     = STRING_TOKEN(STR_HIIMENU_HELP),
+
+  form formid = 1,
+  title     = STRING_TOKEN(STR_HIIMENU_TITLE);
+ 
+  goto 2,
+    prompt = STRING_TOKEN(STR_HIIMENU_FORMID1_TITLE),
+    help = STRING_TOKEN(STR_NULL_STRING);
+
+  goto 3,
+    prompt = STRING_TOKEN(STR_HIIMENU_FORMID2_TITLE),
+    help = STRING_TOKEN(STR_NULL_STRING);
+  endform;
+
+  form formid = 2,
+    title  = STRING_TOKEN(STR_HIIMENU_FORMID1_TITLE);
+
+  	text
+    help   = STRING_TOKEN(STR_HIIMENU_ITEM1_HELP),
+    text   = STRING_TOKEN(STR_HIIMENU_ITEM1_TEXT),
+	text   = STRING_TOKEN(STR_NULL_STRING);
+
+  endform;
+
+  form formid = 3,
+    title  = STRING_TOKEN(STR_HIIMENU_FORMID2_TITLE);
+
+  	text
+    help   = STRING_TOKEN(STR_HIIMENU_ITEM2_HELP),
+    text   = STRING_TOKEN(STR_HIIMENU_ITEM2_TEXT);
+
+  endform;
+endformset;
