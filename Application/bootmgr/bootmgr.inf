@@ -1,0 +1,35 @@
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = bootmgr
+  FILE_GUID                      = AAC2EA6F-D4C8-4e43-996A-9CDB20742C86
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 0.1
+  ENTRY_POINT                    = ShellCEntryLib
+
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF
+#
+
+[Sources]
+  bootmgr.c
+
+[Packages]
+  ShellPkg/ShellPkg.dec
+  MdePkg/MdePkg.dec
+  MyPkg/MyPkg.dec
+#  IntelFrameworkModulePkg/IntelFrameworkModulePkg.dec
+
+[LibraryClasses]
+  ShellCEntryLib
+#  UefiApplicationEntryPoint
+  UefiLib
+#  GenericBdsLib
+  
+
+[Guids]
+  gEfiGlobalVariableGuid
+
+[Protocols]
+
+[BuildOptions]
+

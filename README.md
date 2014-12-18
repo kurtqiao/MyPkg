@@ -1,6 +1,6 @@
 MyPkg
 ============
-A sameple UEFI Application package
+A sample UEFI Application package
 
 License:
 ------
@@ -26,3 +26,5 @@ Application:
      sample how to identify HDD data,support both AHCI and IDE mode.
   4. HiiMenu
      sample how to use uefi HII.
+  5. bootmgr
+     sample to manipulate UEFI variables, show/set BootOrder, show Boot####, BootCurrent.
