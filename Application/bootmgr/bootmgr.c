@@ -11,14 +11,6 @@
 #include "Guid/GlobalVariable.h"
 #include <Library/MemoryAllocationLib.h>
 
-
-#define EFI_NULL_GUID \
-  { 0x00000000, 0x0000, 0x0000, {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00} }
-
-//BOOLEAN SHOW_VERBOSE = FALSE;
-//BOOLEAN SET_BOOTORDER = FALSE;
-//UINT16  BOOTNUM;
-
 typedef struct{
   UINT16 bootnum;
   UINTN show_verbose : 1;
@@ -28,6 +20,15 @@ typedef struct{
 }BOOTMGROPTS;
 
 BOOTMGROPTS opts={0};
+
+VOID
+Usage()
+{
+	Print(L"bootmgr ver 0.1\n");
+	Print(L"[-v]   verbose display\n");
+	Print(L"[-s bootnum] set first boot\n" );
+	Print(L"[-h] help\n");
+}
 
 BOOLEAN
 EFIAPI
@@ -96,12 +97,11 @@ ParseOpt(
     }
 
     switch (Argv[Index][1]) {
-    
     case L'v':
-      opts.show_verbose = TRUE;
+      opts.show_verbose = 1;
       break;
     case L's':
-      opts.set_bootorder = TRUE;
+      opts.set_bootorder = 1;
       opts.bootnum = (UINT16)StrHexToUintn(Argv[Index+1]);
       break;
     case L'h':
@@ -112,19 +112,10 @@ ParseOpt(
 
     default:
       break;
-     // Status = EFI_INVALID_PARAMETER;
     }
   }
 }
 
-VOID
-Usage()
-{
-	Print(L"bootmgr ver 0.1\n");
-	Print(L"[-v]   verbose display\n");
-	Print(L"[-s bootnum] set first boot\n" );
-	Print(L"[-h] help\n");
-}
 EFI_STATUS
 EFIAPI
 ShellAppMain (
@@ -141,15 +132,17 @@ ShellAppMain (
   UINTN         NameSize;
   UINTN         i;
   UINT32        Attr;
-  EFI_GUID      VarGuid=EFI_NULL_GUID;
+  EFI_GUID      VarGuid;
   
 
   ParseOpt(Argc, Argv);
 
+  //------------Usage-----------------------
   if (opts.usage){
   	Usage();
   	return EFI_SUCCESS;
   }
+  //----------Set BootOrder-----------------
   if (opts.set_bootorder){
   	BootVariable = mGetVariable(L"BootOrder", &gEfiGlobalVariableGuid, &BootVariableSize, &Attr);
     BootVariable[0]=opts.bootnum;
@@ -158,6 +151,9 @@ ShellAppMain (
       Print(L"Set first boot to Boot%04x\n", opts.bootnum);
     return Status;
   }
+
+
+  //----------Show Boot UEFI variables--------
   //get BootCurrent
   BootVariable = mGetVariable(L"BootCurrent", &gEfiGlobalVariableGuid, &BootVariableSize, NULL);
   if (BootVariable != NULL)
@@ -219,7 +215,7 @@ ShellAppMain (
            }
         }
         //print EFI_LOAD_OPTION description
-        Print(L"   %s",(CHAR16 *)(BootVariable+3));
+        Print(L" %s",(CHAR16 *)(BootVariable+3));
         Print(L"\n");
         
     }
