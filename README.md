@@ -18,13 +18,15 @@ Build(windows):
 
 Application:
 ------
-  1. AHCI
+  1. AHCI  
      sample how to manipulate AHCI mmio issue HDD identify cmd and ODD eject cmd.
-  2. ctest
+  2. ctest  
      a uefi sample import c language.
-  3. HddId:
+  3. HddId:  
      sample how to identify HDD data,support both AHCI and IDE mode.
-  4. HiiMenu
+  4. HiiMenu  
      sample how to use uefi HII.
-  5. bootmgr
-     sample to manipulate UEFI variables, show/set BootOrder, show Boot####, BootCurrent.
+  5. bootmgr  
+     sample to manipulate UEFI variables, show/set BootOrder, show Boot####, BootCurrent.  
+  6. GPT  
+     sample to read disk LBA1 to check GPT signature.

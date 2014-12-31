@@ -100,6 +100,7 @@
   MyPkg/Application/ctest/ctest.inf
   MyPkg/Application/HiiMenu/HiiMenu.inf
   MyPkg/Application/bootmgr/bootmgr.inf
+  MyPkg/Application/GPT/GPT.inf
 ################################################################
 #
 # See the additional comments below if you plan to run applications under the
