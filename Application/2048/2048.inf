@@ -1,0 +1,38 @@
+## 
+#  UEFI Application
+#
+#  A shell application
+#
+#  Free As Freedom @ 2015
+#
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = 2048
+  FILE_GUID                      = F995E121-C34B-4870-8083-8408E9A4C6E1
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  main.c
+  board.c
+  board.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ShellPkg/ShellPkg.dec
+  MyPkg/MyPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellCEntryLib
+  LibC
+  LibStdio
+
+[Protocols]
+

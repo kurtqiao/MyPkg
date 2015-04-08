@@ -30,3 +30,5 @@ Application:
      sample to manipulate UEFI variables, show/set BootOrder, show Boot####, BootCurrent.  
   6. GPT  
      sample to read disk LBA1 to check GPT signature.
+  7. 2048
+     small game in UEFI shell

@@ -101,6 +101,8 @@
   MyPkg/Application/HiiMenu/HiiMenu.inf
   MyPkg/Application/bootmgr/bootmgr.inf
   MyPkg/Application/GPT/GPT.inf
+  MyPkg/Application/2048/2048.inf
+
 ################################################################
 #
 # See the additional comments below if you plan to run applications under the
