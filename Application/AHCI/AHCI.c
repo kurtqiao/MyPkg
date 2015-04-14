@@ -81,7 +81,7 @@ ShellAppMain (
         return EFI_NOT_FOUND;
 
     //read AHCI bar
-    abar = (HBA_MEM  *)(UINTN)(PciRead32(*AhciPciAddr+0x24));
+    abar = (HBA_MEM  *)(UINTN)(PciRead32((UINTN)(*AhciPciAddr+0x24)));
     
     //make sure AHCI enable
     if (!(abar->ghc & BIT31))

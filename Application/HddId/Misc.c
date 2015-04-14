@@ -77,21 +77,21 @@ GET_IDE_BaseAddress(
       //   bit0 for Primary mode native enable, bit2 for Secondary mode native enable
       //   Note: PNE and SNE must be set by simultaneously, also in theory these bits can be programmed separately but HW not support!!
       //   so we just need to check PNE here
-      tmpval = PciRead8(IDE_PCI_ADDRESS + 0x09);
+      tmpval = PciRead8((UINTN)IDE_PCI_ADDRESS + 0x09);
       if (tmpval&BIT0){ 
         // if in native PCI mode, get base port and control port in regs offset 0x10~0x1F
         IDE_Device->IDE_DEVICES[Count].Channel = ATA_PRIMARY;
         //Primary cmd base address 0x10 and not 0x07
-        IDE_Device->IDE_DEVICES[Count].BasePort = (PciRead32(IDE_PCI_ADDRESS + PRIMARY_CMD_BASEADDR)&(~0x07));
+        IDE_Device->IDE_DEVICES[Count].BasePort = (PciRead32((UINTN)IDE_PCI_ADDRESS + PRIMARY_CMD_BASEADDR)&(~0x07));
         //Primary control base address 0x14 and not 0x03
-        IDE_Device->IDE_DEVICES[Count].ContrlPort = (PciRead32(IDE_PCI_ADDRESS + PRIMARY_CTRL_BASEADDR)&(~0x03));
+        IDE_Device->IDE_DEVICES[Count].ContrlPort = (PciRead32((UINTN)IDE_PCI_ADDRESS + PRIMARY_CTRL_BASEADDR)&(~0x03));
         Count++;
 
         IDE_Device->IDE_DEVICES[Count].Channel = ATA_SECONDARY;
         //Sencondary cmd base address 0x18 and not 0x07
-        IDE_Device->IDE_DEVICES[Count].BasePort = (PciRead32(IDE_PCI_ADDRESS + SECONDARY_CMD_BASEADDR)&(~0x07));
+        IDE_Device->IDE_DEVICES[Count].BasePort = (PciRead32((UINTN)IDE_PCI_ADDRESS + SECONDARY_CMD_BASEADDR)&(~0x07));
         //Sencondary control base address 0x1C and not 0x03
-        IDE_Device->IDE_DEVICES[Count].ContrlPort = (PciRead32(IDE_PCI_ADDRESS + SECONDARY_CTRL_BASEADDR)&(~0x03));
+        IDE_Device->IDE_DEVICES[Count].ContrlPort = (PciRead32((UINTN)IDE_PCI_ADDRESS + SECONDARY_CTRL_BASEADDR)&(~0x03));
         Count++;
       }
       else{
@@ -347,7 +347,7 @@ AHCI_HDD_Identify(
   ATApt = (EFI_ATA_PASS_THRU_PROTOCOL      *)gFT.PROTOCOL2;
 
   //get AHCI bar in offset 24h~27h
-  AHCIBAR = PciRead32 (AHCI_PCI_ADDRESS+0x24);
+  AHCIBAR = PciRead32 ((UINTN)AHCI_PCI_ADDRESS+0x24);
   Print(L"AHCI controller 1.0 at ");
   PrintPCIAdress(AHCI_PCI_ADDRESS);
 
