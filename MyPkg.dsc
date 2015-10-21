@@ -47,11 +47,11 @@
   PerformanceLib|MdeModulePkg/Library/DxePerformanceLib/DxePerformanceLib.inf
   HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
   ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
-  FileHandleLib|ShellPkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
-  SortLib|ShellPkg/Library/UefiSortLib/UefiSortLib.inf
+#  FileHandleLib|ShellPkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
+#  SortLib|ShellPkg/Library/UefiSortLib/UefiSortLib.inf
 #kurt add+++
 #for stdlib build fail
-  PathLib|ShellPkg/Library/BasePathLib/BasePathLib.inf
+#  PathLib|ShellPkg/Library/BasePathLib/BasePathLib.inf
 #
 	PciLib|MdePkg/Library/BasePciLibCf8/BasePciLibCf8.inf
 	PciCf8Lib|MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
@@ -102,6 +102,7 @@
   MyPkg/Application/bootmgr/bootmgr.inf
   MyPkg/Application/GPT/GPT.inf
   MyPkg/Application/2048/2048.inf
+  MyPkg/Application/mixbuild/mixtest.inf
 
 ################################################################
 #
