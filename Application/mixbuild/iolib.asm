@@ -33,7 +33,7 @@ _in_byte proc
 _in_byte endp
 
 _out_byte proc
-  push dx
+  ;never push pop save dx, or will get wrong return value
   push bp
   mov bp, sp
   xor ax, ax
@@ -41,7 +41,7 @@ _out_byte proc
   mov ax, [bp+6]    ;parameter 2, data
   out dx, al
   pop bp
-  pop dx
+
   ret
 _out_byte endp
 
