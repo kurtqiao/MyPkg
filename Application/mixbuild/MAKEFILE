@@ -1,0 +1,24 @@
+# makefile for open watcom wmake
+# wmake
+# wmake clean
+
+PROGRAM = mixtest
+ASM = iolib
+CC = wcc
+WA = wasm
+WL = wcl
+
+EXE = $(PROGRAM).exe
+SRC = $(PROGRAM).c
+OBJ = $(ASM).obj
+
+all: $(EXE) .SYMBOLIC
+
+$(EXE): $(OBJ) 
+  $(WL) -bt=dos $(SRC) $(OBJ) 
+
+$(OBJ): $(ASM).asm
+  $(WA) -ms $(ASM).asm
+
+clean: .SYMBOLIC
+  del *.obj *.exe
