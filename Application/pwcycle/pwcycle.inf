@@ -1,0 +1,33 @@
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = pwcycle
+  FILE_GUID                      = E1CF340C-51F0-411b-9CD4-64A366C9084D
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 0.1
+  ENTRY_POINT                    = ShellCEntryLib
+
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF
+#
+
+[Sources]
+  pwcycle.c
+  wiolib.asm
+
+[Packages]
+  StdLib/StdLib.dec
+  ShellPkg/ShellPkg.dec
+  MdePkg/MdePkg.dec
+  MyPkg/MyPkg.dec
+
+[LibraryClasses]
+  LibC
+  LibStdio
+  IoLib
+
+[Guids]
+
+[Protocols]
+
+[BuildOptions]
+#  MSFT:*_*_*_CC_FLAGS = /Od /D_UEFI_ /DCURL_STATICLIB

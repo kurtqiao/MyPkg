@@ -32,3 +32,6 @@ Application:
      sample to read disk LBA1 to check GPT signature.
   7. 2048
      small game in UEFI shell
+  8. pwcyle
+     utility that shutdown and RTC wakeup, support both DOS version  
+     and UEFI version, by different build.  

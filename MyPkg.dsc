@@ -103,6 +103,7 @@
   MyPkg/Application/GPT/GPT.inf
   MyPkg/Application/2048/2048.inf
   MyPkg/Application/mixbuild/mixtest.inf
+  MyPkg/Application/pwcycle/pwcycle.inf
 
 ################################################################
 #
