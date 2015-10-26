@@ -6,6 +6,7 @@
 
   usage: pwcycle -s -t 10 -w 10
   -s    shutdown
+  -r    reboot
   -t xx timeout xx seconds
   -w xx wakeup after xx secnods
 
@@ -84,6 +85,15 @@ enum
   SLP_EN   = BIT5,
   WAKEUP   = BIT7
 };
+
+typedef struct _action
+{
+  unsigned char help :1;
+  unsigned char shutdown :1;
+  unsigned char reboot :1;
+  unsigned char wakeup :1;
+  unsigned char error :1;
+}ACTION;
 
 typedef struct rtc_time
 {
@@ -283,12 +293,20 @@ set_slp_typ(u8 slp_typ)
   sleep(10);
 }
 
+void
+sys_reboot()
+{
+  out_byte(0xcf9, 0x6);
+  sleep(10);
+}
+
 int
 print_usage(char *prog_name, FILE *channel, int ret_val)
 {
-  fprintf(channel, "\nusage: %s [-s | -t xxx | -w xxx]\n", prog_name);
+  fprintf(channel, "\nusage: %s [-s[-r] | -t xxx | -w xxx]\n", prog_name);
   fprintf(channel, "Options\n");
   fprintf(channel, "-s      shutdown\n");
+  fprintf(channel, "-r      reboot\n");
   fprintf(channel, "-t xxx  timeout xxx seconds\n");
   fprintf(channel, "-w xxx  wakeup after xxx seconds\n");
   return ret_val;
@@ -300,21 +318,21 @@ main(
   char * argv[]
 	)
 {
-//  u8 test;
-//  u8 mdata=0;
+
   RTC_DEVICE *rtc_dev;
-  int option, error, help, action, timeout, waketime;
+  int option, timeout, waketime;
+  ACTION action = {0};
   int i;
-  char *c=NULL;
+  char *c = NULL;
   
-  option=error=help=action=timeout=waketime=0;
+  option=timeout=waketime=0;
 
   rtc_dev = malloc(sizeof(RTC_DEVICE));
   rtc_dev->get_time = get_rtc_time;
   rtc_dev->set_alarm = set_rtc_alarm;
   rtc_dev->calc_alarm = calc_rtc_alarm;
 
-  while ((option = getopt (argc, argv, ":hst:w:")) !=-1)
+  while ((option = getopt (argc, argv, ":hsrt:w:")) !=-1)
 {
   switch(option)
   {
@@ -324,56 +342,62 @@ main(
     #ifdef DOS
     case '?':
       fprintf(stderr, "error: unknown option: -%c\n", optopt);
-      error++;
+      action.error = 1; 
       break;
     case ':':
       fprintf(stderr, "error: missing argument for option -%c\n", optopt);
-      error++;
+      action.error = 1; 
       break;
     #endif
     case 'h':
-      help++;
+      action.help = 1;
       break;
     case 's':
-      action = SHUTDOWN; 
+      action.shutdown = 1; 
+      break;
+    case 'r':
+      action.reboot = 1; 
       break;
     case 't':
       sscanf(optarg, "%d", &timeout);
       break;
     case 'w':
-      action |= WAKEUP;
+      action.wakeup = 1;
       sscanf(optarg, "%d", &waketime);
       break;
   }
 }
 
-//  printf("optind  %d, argc %d\n\n", optind, argc);
-if (error || optind < argc)
+if (action.error || optind < argc)
   return print_usage(basename(argv[0]), stderr, EXIT_FAILURE);
 
-if (help)
+if (action.help)
   return print_usage(basename(argv[0]), stderr, EXIT_SUCCESS);
-
-//  printf("action:"),(action>0)?printf("\n"):printf("shutdown\n");
-//  printf("time out: %d\n", timeout);
-//  printf("wake time: %d\n", waketime);
-if (action&WAKEUP){
-  //clear RTC status
-  set_alarm_interrupt(0);
-  set_rtc_event_enable(0);
-  clear_rtc_sts();
 
   //count number?
   if (timeout){
-  if (action&SHUTDOWN)
+  if (action.shutdown)
     c="shutdown";
-  
+  if (action.reboot)
+    c="reboot";
+
     for(i=timeout; i>=1; i--){
       fprintf(stderr, "time to %s %d \r", c, i);
       sleep(1);
     }
   }
 
+
+if (action.wakeup){
+
+  if (waketime == 0){
+    fprintf(stderr, "error: wake time zero!\n");
+    return EXIT_FAILURE;
+  }
+  //clear RTC status
+  set_alarm_interrupt(0);
+  set_rtc_event_enable(0);
+  clear_rtc_sts();
   
   rtc_dev->get_time(&rtc_dev->rtc_time);
   rtc_dev->calc_alarm(&rtc_dev->rtc_time, (u8)waketime);
@@ -388,9 +412,14 @@ if (action&WAKEUP){
           BCD_TO_BIN(rtc_dev->rtc_time.tm_min_alarm), BCD_TO_BIN(rtc_dev->rtc_time.tm_sec_alarm));
 }
   free(rtc_dev);
-if (action&SHUTDOWN){
+
+if (action.shutdown){
   //shutdown
   set_slp_typ(S5);
+}
+
+if (action.reboot){
+  sys_reboot();
 }
 
   return 0;
