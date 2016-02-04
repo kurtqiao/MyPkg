@@ -259,7 +259,7 @@ calc_rtc_alarm(RTC_TIME *rtc_tm, u8 waketime)
   sec = (u8)((total_secs % 3600) % 60);
   //fixed: 24hrs issue
   if (hrs >= 24)
-    hrs = 0
+    hrs = 0;
 
   rtc_tm->tm_hour_alram = BIN_TO_BCD(hrs);
   rtc_tm->tm_min_alarm = BIN_TO_BCD(min);
